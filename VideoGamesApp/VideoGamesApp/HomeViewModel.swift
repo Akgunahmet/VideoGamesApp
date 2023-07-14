@@ -46,10 +46,6 @@ extension HomeViewModel: HomeViewModelProtocol {
 //            self.shouldDownloadMore = true
         }
     }
-
-
-
-
     func getDetail(id: Int) {
         service.downloadDetail(id: id) { [weak self] returnedDetail in
             guard let self = self else { return }

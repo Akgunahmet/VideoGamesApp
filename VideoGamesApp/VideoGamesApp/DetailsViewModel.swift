@@ -24,4 +24,5 @@ extension DetailsViewModel: DetailsViewModelProtocol {
         view?.configure()
 
     }
+    
 }

@@ -8,16 +8,24 @@
 
 import UIKit
 
-final class FavoriteCell: UICollectionViewCell {
+ class FavoriteCell: UICollectionViewCell {
     static let reuseID = "FavoriteCell"
     
-    private let photoImageView: UIImageView = {
-       let imageView = UIImageView()
-        imageView.backgroundColor = .systemPink
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+
+    
+//    private let photoImageView: UIImageView = {
+//       let imageView = UIImageView()
+//        imageView.backgroundColor = .systemPink
+//        imageView.clipsToBounds = true
+//        imageView.contentMode = .scaleAspectFill
+//        return imageView
+//    }()
+     private var photoImageView: PosterImageView = {
+         let imageView = PosterImageView(frame: .zero)
+         imageView.clipsToBounds = true
+         imageView.contentMode = .scaleAspectFill
+         return imageView
+     }()
     private let gameName: UILabel = {
        let label = UILabel()
         label.text = "Name of Game"
@@ -66,5 +74,23 @@ extension FavoriteCell {
             stackView.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 6),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
+    }
+    
+    func configure(gamesCoreData: GamesCoreData) {
+        self.gameName.text = gamesCoreData.name
+        self.ratingLabel.text = String(format: "%.1f", gamesCoreData.rating)
+
+//        if let imageURLString = gamesCoreData.backgroundImage, let imageURL = URL(string: imageURLString) {
+//                DispatchQueue.global().async {
+//                    if let imageData = try? Data(contentsOf: imageURL) {
+//                        DispatchQueue.main.async {
+//                            self.photoImageView.image = UIImage(data: imageData)
+//                        }
+//                    }
+//                }
+//            } else {
+//                self.photoImageView.image = nil
+//       }
+        photoImageView.downloadImage(game: gamesCoreData)
     }
 }

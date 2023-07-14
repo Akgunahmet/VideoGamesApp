@@ -11,9 +11,8 @@ import UIKit
 final class GameCell: UICollectionViewCell {
     static let reuseID = "GameCell"
     
-    private let photoImageView: UIImageView = {
-       let imageView = UIImageView()
-        imageView.backgroundColor = .systemPurple
+    private var photoImageView: PosterImageView = {
+        let imageView = PosterImageView(frame: .zero)
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -44,12 +43,18 @@ final class GameCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        photoImageView.image = nil
+        photoImageView.cancelDownloading()
+    }
 }
 extension GameCell {
     private func setup(){
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoImageView.layer.cornerRadius = 12
-        
+
         stackView = UIStackView(arrangedSubviews: [gameName,ratingLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -57,6 +62,7 @@ extension GameCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
     }
     private func layout(){
+//        photoImageView = PosterImageView(frame: .zero)
         addSubview(photoImageView)
         addSubview(stackView)
         NSLayoutConstraint.activate([
@@ -70,39 +76,11 @@ extension GameCell {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
-    func artworkUrl(for game: Games) -> URL? {
-        if let artworkUrlString = game.backgroundImage, let artworkUrl = URL(string: artworkUrlString) {
-            return artworkUrl
-        }
-        return nil
-    }
 
-     func configure(games: Games) {
+
+    func configure(games: Games) {
+        photoImageView.downloadImage(game: games)
         gameName.text = games.name
         ratingLabel.text = String(format: "%.1f", games.rating ?? "")
-         
-//         if let backgroundImageURLString = games.backgroundImage, let backgroundImageURL = URL(string: backgroundImageURLString) {
-//             URLSession.shared.dataTask(with: backgroundImageURL) { (data, response, error) in
-//                 if let error = error {
-//                     print("Error: \(error.localizedDescription)")
-//                     return
-//                 }
-//
-//                 if let data = data, let backgroundImage = UIImage(data: data) {
-//                     DispatchQueue.main.async {
-//                         self.photoImageView.image = backgroundImage
-//                     }
-//                 }
-//             }.resume()
-//         }
-         if let artworkUrl = artworkUrl(for: games) {
-             URLSession.shared.dataTask(with: artworkUrl) { (data, response, error) in
-                 if let data = data {
-                     DispatchQueue.main.async {
-                         self.photoImageView.image = UIImage(data: data)
-                     }
-                 }
-             }.resume()
-         }
-     }
+    }
 }

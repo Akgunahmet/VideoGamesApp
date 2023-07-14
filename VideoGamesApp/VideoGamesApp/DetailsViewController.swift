@@ -5,17 +5,20 @@
 //  Created by Ahmet Akgün on 13.07.2023.
 //
 import UIKit
+import CoreData
 
 protocol DetailsViewControllerProtocol: AnyObject {
     func style()
     func layout()
     func configure()
+
 }
 
 final class DetailsViewController: UIViewController {
     
     private let games: Games
     private let viewModel = DetailsViewModel()
+    private let favoriteViewModel = FavoritesViewModel()
     init(games: Games) {
         self.games = games
         super.init(nibName: nil, bundle: nil)
@@ -79,6 +82,9 @@ final class DetailsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    private var isFavorite = false
+    
+    private var resultCoreDataItems: [GamesCoreData] = []
     
     var labelStackView: UIStackView!
 
@@ -86,19 +92,105 @@ final class DetailsViewController: UIViewController {
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
-    
+      
     }
-}
+    override func viewWillAppear(_ animated: Bool) {
+        checkFavoriteStatus()
+        setupNavBarItem()
+    }
 
-extension String {
-    func stripHTMLTags() -> String {
-        let regex = try! NSRegularExpression(pattern: "<.*?>", options: [.caseInsensitive])
-        let range = NSRange(location: 0, length: self.count)
-        return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: "")
+}
+extension DetailsViewController {
+
+
+    private func setupNavBarItem() {
+        let buttonImage = isFavorite ? UIImage(systemName: "heart.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal) : UIImage(systemName: "heart")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+        let navRightItem = UIBarButtonItem(image: buttonImage, style: .done, target: self, action: #selector(handleFavoriButton))
+        self.navigationItem.rightBarButtonItem = navRightItem
+    }
+
+    private func checkFavoriteStatus() {
+        // Fetch the favorite game with a matching name
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest: NSFetchRequest<GamesCoreData> = GamesCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", games._name)
+        
+        do {
+            let favorites = try managedContext.fetch(fetchRequest)
+            isFavorite = !favorites.isEmpty
+        } catch let error as NSError {
+            print("Could not fetch favorite games. Error: \(error), \(error.userInfo)")
+        }
+    }
+
+    private func saveGameToFavorites() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // Create a new Favorites entity object
+        let favoriteGame = GamesCoreData(context: managedContext)
+        favoriteGame.name = games._name
+        favoriteGame.rating = games._rating
+        favoriteGame.id = Int16(games._id)
+//        favoriteGame.release = games._release
+        favoriteGame.backgroundImage = games.backgroundImage
+        
+        // Save the context
+        do {
+            try managedContext.save()
+            isFavorite = true
+            setupNavBarItem() // Update the UI to reflect the favorite status
+            print("başarılı kaydedildi")
+        } catch let error as NSError {
+            print("Could not save game to favorites. Error: \(error), \(error.userInfo)")
+        }
+    }
+    private func deleteGameFromFavorites() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // Fetch the favorite game with a matching name
+        let fetchRequest: NSFetchRequest<GamesCoreData> = GamesCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", games._name)
+        
+        do {
+            let favorites = try managedContext.fetch(fetchRequest)
+            if let favoriteGame = favorites.first {
+                managedContext.delete(favoriteGame)
+                try managedContext.save()
+                isFavorite = false
+                setupNavBarItem() // Update the UI to reflect the favorite status
+                print("başarılı silindi")
+            }
+        } catch let error as NSError {
+            print("Could not delete game from favorites. Error: \(error), \(error.userInfo)")
+        }
+    }
+    @objc private func handleFavoriButton() {
+        if isFavorite {
+            deleteGameFromFavorites()
+            isFavorite = false
+        } else {
+            saveGameToFavorites()
+            isFavorite = true
+        }
+        setupNavBarItem()
     }
 }
 
 extension DetailsViewController: DetailsViewControllerProtocol {
+
     func configure() {
         gameNameLabel.text = games._name
         gameRateLabel.text = String(format: "%.1f", games._rating)
@@ -147,7 +239,6 @@ extension DetailsViewController: DetailsViewControllerProtocol {
             labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            //gameDescriptionLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             gameDescriptionLabel.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 8),
             gameDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 35),
             gameDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -30),

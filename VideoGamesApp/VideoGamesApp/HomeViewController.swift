@@ -16,22 +16,9 @@ protocol HomeViewControllerProtocol: AnyObject {
 
 final class HomeViewController: UIViewController, HomeViewControllerProtocol {
     
-    
-    
     private var pageView: UIPageViewController!
     private var collectionView: UICollectionView!
     private let viewModel = HomeViewModel()
-    
-    private var stackview: UIStackView!
-    
-    private let centerLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Enter the name of the game you are looking for..."
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +45,7 @@ final class HomeViewController: UIViewController, HomeViewControllerProtocol {
         viewController.view.backgroundColor = .clear
         
         let imageView = UIImageView(frame: viewController.view.bounds)
-        imageView.contentMode = .scaleAspectFill
+     //   imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         if let url = URL(string: imageURL) {
             URLSession.shared.dataTask(with: url) { [weak imageView] (data, response, error) in
@@ -70,13 +57,18 @@ final class HomeViewController: UIViewController, HomeViewControllerProtocol {
                 }
             }.resume()
         }
-        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+       // imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.translatesAutoresizingMaskIntoConstraints = false // Add this line to prevent layout issues
         viewController.view.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: viewController.view.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor),
+        ])
         viewController.view.tag = index
         return viewController
     }
-    
     
 }
 // MARK: - Extension Helper Function
@@ -92,13 +84,11 @@ extension HomeViewController {
             self.navigationController?.pushViewController(detailScreen, animated: true)
         }
     }
-    
     func setupPageViewControllerIfNeeded() {
         DispatchQueue.main.async { [weak self] in
             self?.setupPageViewController()
         }
     }
-    
     func style() {
         
         view.backgroundColor = .systemBackground
@@ -117,7 +107,6 @@ extension HomeViewController {
         pageControl.currentPageIndicatorTintColor = .black
     }
     func layout() {
-        view.addSubview(centerLabel)
         
         addChild(pageView)
         view.addSubview(pageView.view)
@@ -127,9 +116,7 @@ extension HomeViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            centerLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            centerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            view.trailingAnchor.constraint(equalTo: centerLabel.trailingAnchor, constant: 32),
+            
             
             pageView.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             pageView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -180,7 +167,7 @@ extension HomeViewController: UIPageViewControllerDataSource{
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        centerLabel.isHidden = self.viewModel.games.count != 0
+        //centerLabel.isHidden = self.viewModel.games.count != 0
         return viewModel.games.count - 3
     }
     
