@@ -39,12 +39,12 @@ final class GamesService {
             }
         }
     }
-    func downloadSearchGames(searchTerm: String, completion: @escaping (Games?) -> ()) {
+    func downloadSearchGames(searchTerm: String, completion: @escaping ([Games]?) -> ()) {
          guard let url = URL(string: APIURLs.searchGames(searchTerm: searchTerm)) else { return }
-         
+
          NetworkManager.shared.download(url: url) { [weak self] result in
              guard let self = self else { return }
-             
+
              switch result {
              case .success(let data):
                  completion(self.handleWithData(data))

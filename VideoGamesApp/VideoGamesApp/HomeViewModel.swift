@@ -16,7 +16,9 @@ protocol HomeViewModelProtocol {
 final class HomeViewModel {
      weak var view: HomeViewControllerProtocol?
      public let service = GamesService()
-     var games: [Games] = []
+    var games: [Games] = []
+
+    
      private var page: Int = 1
 }
 
@@ -31,19 +33,23 @@ extension HomeViewModel: HomeViewModelProtocol {
         
     func getGames() {
 //        shouldDownloadMore = false
-        service.downloadGames(page: page) { [weak self] returnedMovies in
+        service.downloadGames(page: page) { [weak self] returnedGames in
             guard let self = self else { return }
-            guard let returnedMovies = returnedMovies else { return }
-            
-            self.games.append(contentsOf: returnedMovies)
+            guard let returnedGames = returnedGames else { return }
+
+            self.games.append(contentsOf: returnedGames)
 
             self.page += 1
-            
+
             self.view?.reloadCollectionView()
             self.view?.setupPageViewControllerIfNeeded()
 //            self.shouldDownloadMore = true
         }
     }
+
+
+
+
     func getDetail(id: Int) {
         service.downloadDetail(id: id) { [weak self] returnedDetail in
             guard let self = self else { return }

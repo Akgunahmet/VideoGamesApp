@@ -14,44 +14,35 @@ protocol HomeViewControllerProtocol: AnyObject {
     func setupPageViewControllerIfNeeded()
 }
 
-final class HomeViewController: UIViewController, UISearchBarDelegate, HomeViewControllerProtocol {
-
-
-
+final class HomeViewController: UIViewController, HomeViewControllerProtocol {
+    
+    
+    
     private var pageView: UIPageViewController!
     private var collectionView: UICollectionView!
     private let viewModel = HomeViewModel()
-
+    
     private var stackview: UIStackView!
-
-
+    
+    private let centerLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Enter the name of the game you are looking for..."
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
-    
-    }
-
-    func reloadCollectionView() {
-        collectionView.reloadOnMainThread()
-    }
-
-    func navigateToDetailScreen(games: Games) {
-        DispatchQueue.main.async {
-            let detailScreen = DetailsViewController(games: games)
-            self.navigationController?.pushViewController(detailScreen, animated: true)
-        }
+        
     }
     
-    func setupPageViewControllerIfNeeded() {
-        DispatchQueue.main.async { [weak self] in
-            self?.setupPageViewController()
-        }
-    }
-
     private func setupPageViewController() {
         pageView.dataSource = self
-
+        
         let initialViewControllers = viewModel.games.prefix(3).enumerated().map { (index, game) in
             return createViewController(withImageURL: game.backgroundImage ?? "", index: index)
         }
@@ -61,10 +52,11 @@ final class HomeViewController: UIViewController, UISearchBarDelegate, HomeViewC
         }
         pageView.dataSource = (initialViewControllers.count > 1) ? self : nil
     }
-   private func createViewController(withImageURL imageURL: String, index: Int) -> UIViewController {
+    
+    private func createViewController(withImageURL imageURL: String, index: Int) -> UIViewController {
         let viewController = UIViewController()
         viewController.view.backgroundColor = .clear
-
+        
         let imageView = UIImageView(frame: viewController.view.bounds)
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -84,12 +76,78 @@ final class HomeViewController: UIViewController, UISearchBarDelegate, HomeViewC
         viewController.view.tag = index
         return viewController
     }
-
-
+    
+    
 }
-// MARK: - UIPageViewController
-extension HomeViewController: UIPageViewControllerDataSource{
+// MARK: - Extension Helper Function
+extension HomeViewController {
+    
+    func reloadCollectionView() {
+        collectionView.reloadOnMainThread()
+    }
+    
+    func navigateToDetailScreen(games: Games) {
+        DispatchQueue.main.async {
+            let detailScreen = DetailsViewController(games: games)
+            self.navigationController?.pushViewController(detailScreen, animated: true)
+        }
+    }
+    
+    func setupPageViewControllerIfNeeded() {
+        DispatchQueue.main.async { [weak self] in
+            self?.setupPageViewController()
+        }
+    }
+    
+    func style() {
+        
+        view.backgroundColor = .systemBackground
+        let searchController = UISearchController(searchResultsController: nil)
+        self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.delegate = self
+        searchController.hidesNavigationBarDuringPresentation = false // title gizlenmesini engellemek için
+        pageView = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createHomeFlowLayout())
+        collectionView.register(GameCell.self, forCellWithReuseIdentifier: GameCell.reuseID)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
+        pageControl.pageIndicatorTintColor = .gray
+        pageControl.currentPageIndicatorTintColor = .black
+    }
+    func layout() {
+        view.addSubview(centerLabel)
+        
+        addChild(pageView)
+        view.addSubview(pageView.view)
+        pageView.didMove(toParent: self)
+        pageView.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            centerLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            centerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            view.trailingAnchor.constraint(equalTo: centerLabel.trailingAnchor, constant: 32),
+            
+            pageView.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            pageView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pageView.view.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            
+            collectionView.topAnchor.constraint(equalTo: pageView.view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
+}
 
+// MARK: - UIPageViewControllerDataSource
+
+extension HomeViewController: UIPageViewControllerDataSource{
+    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let currentIndex = viewController.view.tag
         guard currentIndex > 0 else {
@@ -110,21 +168,22 @@ extension HomeViewController: UIPageViewControllerDataSource{
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        // Sayfa sayısının döndürülmesi (isteğe bağlı)
         return 3
     }
     
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        // Mevcut sayfanın indeksinin döndürülmesi (isteğe bağlı)
         return pageViewController.viewControllers?.first?.view.tag ?? 0
     }
 }
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+// MARK: - UICollectionViewDelegate - UICollectionViewDataSource
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        centerLabel.isHidden = self.viewModel.games.count != 0
         return viewModel.games.count - 3
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GameCell.reuseID, for: indexPath) as! GameCell
         cell.configure(games: viewModel.games[indexPath.item + 3])
@@ -134,43 +193,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         viewModel.getDetail(id: viewModel.games[indexPath.item + 3]._id)
     }
 }
-extension HomeViewController {
-     func style() {
-        
-        view.backgroundColor = .systemBackground
-        let searchController = UISearchController(searchResultsController: nil)
-        self.navigationItem.searchController = searchController
-        self.navigationItem.hidesSearchBarWhenScrolling = false
-        searchController.searchBar.delegate = self
-        searchController.hidesNavigationBarDuringPresentation = false // title gizlenmesini engellemek için
-        pageView = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createHomeFlowLayout())
-        collectionView.register(GameCell.self, forCellWithReuseIdentifier: GameCell.reuseID)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
-        pageControl.pageIndicatorTintColor = .gray
-        pageControl.currentPageIndicatorTintColor = .black
+// MARK: - UISearchBarDelegate
+
+extension HomeViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.viewModel.service.downloadSearchGames(searchTerm: searchText) { result in
+            self.viewModel.games = result!
+            self.reloadCollectionView()
+        }
     }
-     func layout() {
-        addChild(pageView)
-        view.addSubview(pageView.view)
-        pageView.didMove(toParent: self)
-        pageView.view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            pageView.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            pageView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pageView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            pageView.view.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            
-            collectionView.topAnchor.constraint(equalTo: pageView.view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.viewModel.games = []
     }
 }
 

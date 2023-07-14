@@ -24,7 +24,6 @@
 		E49F90452A5FCB0C00947D6C /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49F90442A5FCB0C00947D6C /* FavoritesViewController.swift */; };
 		E49F90472A5FCB1C00947D6C /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49F90462A5FCB1C00947D6C /* UIHelper.swift */; };
 		E49F90492A5FCB3200947D6C /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49F90482A5FCB3200947D6C /* CGFloat+Extension.swift */; };
-		E49F904C2A5FCC1600947D6C /* VideoGamesAPI in Frameworks */ = {isa = PBXBuildFile; productRef = E49F904B2A5FCC1600947D6C /* VideoGamesAPI */; };
 		E4E37AAC2A611CD6006D7F3E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E37AAB2A611CD6006D7F3E /* HomeViewModel.swift */; };
 		E4E37AAE2A611CDF006D7F3E /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E37AAD2A611CDF006D7F3E /* DetailsViewModel.swift */; };
 		E4E37AB12A611D94006D7F3E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E37AB02A611D94006D7F3E /* NetworkManager.swift */; };
@@ -90,7 +89,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E49F904C2A5FCC1600947D6C /* VideoGamesAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,7 +282,6 @@
 			);
 			name = VideoGamesApp;
 			packageProductDependencies = (
-				E49F904B2A5FCC1600947D6C /* VideoGamesAPI */,
 			);
 			productName = VideoGamesApp;
 			productReference = E49F8FFE2A5FC94500947D6C /* VideoGamesApp.app */;
@@ -753,13 +750,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		E49F904B2A5FCC1600947D6C /* VideoGamesAPI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = VideoGamesAPI;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		E49F900A2A5FC94500947D6C /* VideoGamesApp.xcdatamodeld */ = {
