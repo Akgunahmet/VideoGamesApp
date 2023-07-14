@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import VideoGamesAPI
 
 final class GameCell: UICollectionViewCell {
     static let reuseID = "GameCell"
@@ -70,5 +70,39 @@ extension GameCell {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
- 
+    func artworkUrl(for game: Games) -> URL? {
+        if let artworkUrlString = game.backgroundImage, let artworkUrl = URL(string: artworkUrlString) {
+            return artworkUrl
+        }
+        return nil
+    }
+
+     func configure(games: Games) {
+        gameName.text = games.name
+        ratingLabel.text = String(format: "%.1f", games.rating ?? "")
+         
+//         if let backgroundImageURLString = games.backgroundImage, let backgroundImageURL = URL(string: backgroundImageURLString) {
+//             URLSession.shared.dataTask(with: backgroundImageURL) { (data, response, error) in
+//                 if let error = error {
+//                     print("Error: \(error.localizedDescription)")
+//                     return
+//                 }
+//
+//                 if let data = data, let backgroundImage = UIImage(data: data) {
+//                     DispatchQueue.main.async {
+//                         self.photoImageView.image = backgroundImage
+//                     }
+//                 }
+//             }.resume()
+//         }
+         if let artworkUrl = artworkUrl(for: games) {
+             URLSession.shared.dataTask(with: artworkUrl) { (data, response, error) in
+                 if let data = data {
+                     DispatchQueue.main.async {
+                         self.photoImageView.image = UIImage(data: data)
+                     }
+                 }
+             }.resume()
+         }
+     }
 }

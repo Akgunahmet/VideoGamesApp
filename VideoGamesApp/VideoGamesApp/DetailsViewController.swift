@@ -4,11 +4,26 @@
 //
 //  Created by Ahmet Akgün on 13.07.2023.
 //
-
 import UIKit
 
-class DetailsViewController: UIViewController {
+protocol DetailsViewControllerProtocol: AnyObject {
+    func style()
+    func layout()
+    func configure()
+}
 
+final class DetailsViewController: UIViewController {
+    
+    private let games: Games
+    private let viewModel = DetailsViewModel()
+    init(games: Games) {
+        self.games = games
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -21,11 +36,10 @@ class DetailsViewController: UIViewController {
         return view
     }()
     
-    private let gameImageView: UIImageView = {
-        let imageView = UIImageView()
+    private let gameImageView: PosterImageView = {
+        let imageView = PosterImageView(frame: .zero)
         imageView.backgroundColor = .systemTeal
         imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .purple
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -59,7 +73,7 @@ class DetailsViewController: UIViewController {
     
     private let gameDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description "
+        label.text = "Description Description Description "
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -70,15 +84,31 @@ class DetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        style()
-        layout()
+        viewModel.view = self
+        viewModel.viewDidLoad()
+    
     }
 }
 
-extension DetailsViewController {
+extension String {
+    func stripHTMLTags() -> String {
+        let regex = try! NSRegularExpression(pattern: "<.*?>", options: [.caseInsensitive])
+        let range = NSRange(location: 0, length: self.count)
+        return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: "")
+    }
+}
+
+extension DetailsViewController: DetailsViewControllerProtocol {
+    func configure() {
+        gameNameLabel.text = games._name
+        gameRateLabel.text = String(format: "%.1f", games._rating)
+        gameDateLabel.text = games._release
+        gameImageView.downloadImage(game: games)
+        let cleanedDescription = games._description.stripHTMLTags()
+        gameDescriptionLabel.text = cleanedDescription
+    }
     
-    private func style() {
+     func style() {
         view.backgroundColor = .systemBackground
         labelStackView = UIStackView(arrangedSubviews: [gameNameLabel,
                                                        gameDateLabel,
@@ -88,17 +118,16 @@ extension DetailsViewController {
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func layout() {
+     func layout() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(gameImageView)
         contentView.addSubview(labelStackView)
         contentView.addSubview(gameDescriptionLabel)
         
-        let navbarHeight = navigationController?.navigationBar.frame.size.height ?? 0.0
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: navbarHeight),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -118,9 +147,10 @@ extension DetailsViewController {
             labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
+            //gameDescriptionLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
             gameDescriptionLabel.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 8),
-            gameDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
-            gameDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            gameDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 35),
+            gameDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -30),
             gameDescriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
