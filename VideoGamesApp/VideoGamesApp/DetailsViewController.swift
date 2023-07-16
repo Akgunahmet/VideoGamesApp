@@ -41,7 +41,6 @@ final class DetailsViewController: UIViewController {
     
     private let gameImageView: PosterImageView = {
         let imageView = PosterImageView(frame: .zero)
-        imageView.backgroundColor = .systemTeal
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -64,7 +63,6 @@ final class DetailsViewController: UIViewController {
         label.textAlignment = .left
         return label
     }()
-    
     private let gameRateLabel: UILabel = {
         let label = UILabel()
         label.text = "Metacritic Rate"
@@ -142,12 +140,14 @@ extension DetailsViewController {
         favoriteGame.id = Int16(games._id)
 //        favoriteGame.release = games._release
         favoriteGame.backgroundImage = games.backgroundImage
-        
+        let window = UIApplication.shared.connectedScenes.first as! UIWindowScene
+        let mainTabController = window.keyWindow?.rootViewController as! MainTabBarViewController
+        mainTabController.viewControllers?[1].tabBarItem.badgeValue = "New"
         // Save the context
         do {
             try managedContext.save()
             isFavorite = true
-            setupNavBarItem() // Update the UI to reflect the favorite status
+            setupNavBarItem()
             print("başarılı kaydedildi")
         } catch let error as NSError {
             print("Could not save game to favorites. Error: \(error), \(error.userInfo)")
@@ -170,7 +170,7 @@ extension DetailsViewController {
                 managedContext.delete(favoriteGame)
                 try managedContext.save()
                 isFavorite = false
-                setupNavBarItem() // Update the UI to reflect the favorite status
+                setupNavBarItem() 
                 print("başarılı silindi")
             }
         } catch let error as NSError {

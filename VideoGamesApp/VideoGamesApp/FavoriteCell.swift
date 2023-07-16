@@ -79,18 +79,6 @@ extension FavoriteCell {
     func configure(gamesCoreData: GamesCoreData) {
         self.gameName.text = gamesCoreData.name
         self.ratingLabel.text = String(format: "%.1f", gamesCoreData.rating)
-
-//        if let imageURLString = gamesCoreData.backgroundImage, let imageURL = URL(string: imageURLString) {
-//                DispatchQueue.global().async {
-//                    if let imageData = try? Data(contentsOf: imageURL) {
-//                        DispatchQueue.main.async {
-//                            self.photoImageView.image = UIImage(data: imageData)
-//                        }
-//                    }
-//                }
-//            } else {
-//                self.photoImageView.image = nil
-//       }
         photoImageView.downloadImage(game: gamesCoreData)
     }
 }

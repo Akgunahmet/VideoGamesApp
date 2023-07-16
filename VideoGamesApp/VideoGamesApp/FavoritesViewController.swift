@@ -22,13 +22,14 @@ class FavoritesViewController: UIViewController, FavoritesViewControllerProtocol
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
-    }
+            }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchFavoriteGames()
+        let window = UIApplication.shared.connectedScenes.first as! UIWindowScene
+        let mainTabController = window.keyWindow?.rootViewController as! MainTabBarViewController
+        mainTabController.viewControllers?[1].tabBarItem.badgeValue = nil
     }
-
-    
 
 }
 extension FavoritesViewController {
@@ -42,6 +43,9 @@ extension FavoritesViewController {
             self.navigationController?.pushViewController(detailScreen, animated: true)
         }
     }
+    @objc private func deleteAllButtonTapped() {
+        viewModel.deleteAllFavoriteGames()
+    }
     
      func style() {
         view.backgroundColor = .systemBackground
@@ -49,6 +53,9 @@ extension FavoritesViewController {
         view.addSubview(collectionView)
         collectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: FavoriteCell.reuseID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+         let deleteAllButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteAllButtonTapped))
+             deleteAllButton.tintColor = .red
+             navigationItem.rightBarButtonItem = deleteAllButton
     }
      func layout() {
         NSLayoutConstraint.activate([
@@ -75,4 +82,5 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.getDetail(id: Int(viewModel.resultCoreDataItems[indexPath.item].id))
     }
+    
 }

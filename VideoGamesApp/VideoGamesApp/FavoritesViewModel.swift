@@ -60,4 +60,24 @@ extension FavoritesViewModel: FavoritesViewModelProtocol {
             print("Could not fetch favorite games from Core Data. Error: \(error), \(error.userInfo)")
         }
     }
+    func deleteAllFavoriteGames() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "GamesCoreData")
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try managedContext.execute(batchDeleteRequest)
+            resultCoreDataItems.removeAll() // Veri dizisini temizle
+            view?.reloadCollectionView() // Collection view'i yeniden yükle
+            
+        } catch let error as NSError {
+            print("Could not delete favorite games from Core Data. Error: \(error), \(error.userInfo)")
+        }
+    }
+
 }
