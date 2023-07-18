@@ -19,19 +19,19 @@ final class GameCell: UICollectionViewCell {
     }()
     
     private let gameName: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Name of Game"
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
     
     private let ratingLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Raiting"
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
- 
+    
     private var stackView: UIStackView!
     
     override init(frame: CGRect) {
@@ -54,7 +54,7 @@ extension GameCell {
     private func setup(){
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoImageView.layer.cornerRadius = 12
-
+        
         stackView = UIStackView(arrangedSubviews: [gameName,ratingLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -62,7 +62,6 @@ extension GameCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
     }
     private func layout(){
-//        photoImageView = PosterImageView(frame: .zero)
         addSubview(photoImageView)
         addSubview(stackView)
         NSLayoutConstraint.activate([
@@ -76,8 +75,7 @@ extension GameCell {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
-
-
+    
     func configure(games: Games) {
         photoImageView.downloadImage(game: games)
         gameName.text = games.name

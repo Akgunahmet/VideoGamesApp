@@ -8,37 +8,29 @@
 
 import UIKit
 
- class FavoriteCell: UICollectionViewCell {
+class FavoriteCell: UICollectionViewCell {
+    
     static let reuseID = "FavoriteCell"
     
-
-    
-//    private let photoImageView: UIImageView = {
-//       let imageView = UIImageView()
-//        imageView.backgroundColor = .systemPink
-//        imageView.clipsToBounds = true
-//        imageView.contentMode = .scaleAspectFill
-//        return imageView
-//    }()
-     private var photoImageView: PosterImageView = {
-         let imageView = PosterImageView(frame: .zero)
-         imageView.clipsToBounds = true
-         imageView.contentMode = .scaleAspectFill
-         return imageView
-     }()
+    private var photoImageView: PosterImageView = {
+        let imageView = PosterImageView(frame: .zero)
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
     private let gameName: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Name of Game"
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
     private let ratingLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Raiting"
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
- 
+    
     private var stackView: UIStackView!
     
     override init(frame: CGRect) {

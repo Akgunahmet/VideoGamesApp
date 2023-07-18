@@ -4,7 +4,6 @@
 //
 //  Created by Ahmet Akgün on 13.07.2023.
 //
-
 import UIKit
 
 protocol FavoritesViewControllerProtocol: AnyObject {
@@ -22,15 +21,12 @@ class FavoritesViewController: UIViewController, FavoritesViewControllerProtocol
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
-            }
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchFavoriteGames()
-        let window = UIApplication.shared.connectedScenes.first as! UIWindowScene
-        let mainTabController = window.keyWindow?.rootViewController as! MainTabBarViewController
-        mainTabController.viewControllers?[1].tabBarItem.badgeValue = nil
+        viewModel.badgeValue()
     }
-
 }
 extension FavoritesViewController {
     
@@ -47,17 +43,18 @@ extension FavoritesViewController {
         viewModel.deleteAllFavoriteGames()
     }
     
-     func style() {
+    func style() {
         view.backgroundColor = .systemBackground
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createHomeFlowLayout())
         view.addSubview(collectionView)
         collectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: FavoriteCell.reuseID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-         let deleteAllButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteAllButtonTapped))
-             deleteAllButton.tintColor = .red
-             navigationItem.rightBarButtonItem = deleteAllButton
+        let deleteAllButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteAllButtonTapped))
+        deleteAllButton.tintColor = .red
+        navigationItem.rightBarButtonItem = deleteAllButton
     }
-     func layout() {
+    
+    func layout() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

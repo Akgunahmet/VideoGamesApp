@@ -16,7 +16,6 @@ public struct VideoGames: Decodable {
     public let description: String?
     //public let filters: Filters?
     
-    
 }
 
 // MARK: - Result

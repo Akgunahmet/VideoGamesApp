@@ -21,8 +21,5 @@ enum APIURLs {
         "https://api.rawg.io/api/games/\(id)?key=5a8a1ff03cfa4515b0647f1a85deb418"
     }
 
-//    static func searchGames(searchTerm: String) -> String {
-//        "https://api.rawg.io/api/games?key=5a8a1ff03cfa4515b0647f1a85deb418&search=\(searchTerm)"
-//    }
 }
 

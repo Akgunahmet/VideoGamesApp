@@ -11,7 +11,7 @@ import UIKit
 public class PosterImageView: UIImageView {
     
     private var dataTask: URLSessionDataTask?
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -50,7 +50,7 @@ public class PosterImageView: UIImageView {
             }
         }
     }
-
+    
     
     func cancelDownloading() {
         dataTask?.cancel()
