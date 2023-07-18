@@ -29,15 +29,19 @@ extension HomeViewModel: HomeViewModelProtocol {
     }
     
     func getGames() {
+        view?.showLoadingView()
         service.downloadGames(page: page) { [weak self] returnedMovies in
             guard let self = self else { return }
             guard let returnedMovies = returnedMovies else { return }
             
             self.games.append(contentsOf: returnedMovies)
             self.filteredGames = Array(self.games.dropFirst(3))
+            
             self.page += 1
+          
             self.view?.reloadCollectionView()
             self.view?.setupPageViewControllerIfNeeded()
+            view?.hideLoadingView()
         }
     }
     

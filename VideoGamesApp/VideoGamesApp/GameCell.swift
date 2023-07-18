@@ -75,7 +75,6 @@ extension GameCell {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
-    
     func configure(games: Games) {
         photoImageView.downloadImage(game: games)
         gameName.text = games.name

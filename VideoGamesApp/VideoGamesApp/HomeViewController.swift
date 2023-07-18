@@ -14,9 +14,11 @@ protocol HomeViewControllerProtocol: AnyObject {
     func reloadCollectionView()
     func navigateToDetailScreen(games: Games)
     func setupPageViewControllerIfNeeded()
+    func showLoadingView()
+    func hideLoadingView()
 }
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController, LoadingShowable {
     
     var pageView: UIPageViewController!
     var collectionView: UICollectionView!
@@ -71,6 +73,15 @@ final class HomeViewController: UIViewController {
 // MARK: - Extension Helper Function
 extension HomeViewController: HomeViewControllerProtocol {
     
+    func showLoadingView() {
+        showLoading()
+    }
+    
+    func hideLoadingView() {
+        hideLoading()
+        
+    }
+    
     func reloadCollectionView() {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadOnMainThread()
@@ -83,7 +94,8 @@ extension HomeViewController: HomeViewControllerProtocol {
             }
         }
     }
-    
+
+
     func navigateToDetailScreen(games: Games) {
         DispatchQueue.main.async {
             let detailScreen = DetailsViewController(games: games)

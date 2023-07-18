@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class PosterImageView: UIImageView {
+public class PosterImageView: UIImageView{
     
     private var dataTask: URLSessionDataTask?
     
@@ -23,6 +23,7 @@ public class PosterImageView: UIImageView {
     }
     
     func downloadImage(game: Games) {
+        
         guard let url = URL(string: APIURLs.imageURL(backgroundImage: game._backgroundImage)) else { return }
         
         dataTask = NetworkManager.shared.download(url: url) { [weak self] result in

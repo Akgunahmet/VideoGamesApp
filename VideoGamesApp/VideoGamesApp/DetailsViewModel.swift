@@ -29,6 +29,7 @@ extension DetailsViewModel: DetailsViewModelProtocol {
         view?.layout()
         view?.configure()
     }
+
     
     func checkFavoriteStatus() {
 
