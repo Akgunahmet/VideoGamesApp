@@ -12,6 +12,10 @@ import CoreData
 protocol FavoritesViewModelProtocol {
     var view: FavoritesViewControllerProtocol? { get set }
     func viewDidLoad()
+    func getDetail(id: Int)
+    func badgeValue()
+    func fetchFavoriteGames()
+    func deleteAllFavoriteGames()
 }
 
 final class FavoritesViewModel {
@@ -78,7 +82,7 @@ extension FavoritesViewModel: FavoritesViewModelProtocol {
         do {
             try managedContext.execute(batchDeleteRequest)
             resultCoreDataItems.removeAll()
-            view?.reloadCollectionView() 
+            view?.reloadCollectionView()
             
         } catch let error as NSError {
             print("Could not delete favorite games from Core Data. Error: \(error), \(error.userInfo)")

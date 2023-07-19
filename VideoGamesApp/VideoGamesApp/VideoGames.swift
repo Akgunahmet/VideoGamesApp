@@ -5,7 +5,6 @@
 //  Created by Ahmet Akgün on 14.07.2023.
 //
 
-
 import Foundation
 
 // MARK: - VideoGame
@@ -58,6 +57,9 @@ public  let metacritic: Int?
     }
     var _description: String {
         description ?? "N/A"
+    }
+    var _metacritic: Int {
+        metacritic ?? 0
     }
 }
 

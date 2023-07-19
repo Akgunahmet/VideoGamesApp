@@ -12,6 +12,9 @@ import UIKit
 protocol DetailsViewModelProtocol {
     var view: DetailsViewControllerProtocol? { get set }
     func viewDidLoad()
+    func checkFavoriteStatus()
+    func saveGameToFavorites()
+    func deleteGameFromFavorites()
 }
 
 
@@ -61,6 +64,7 @@ extension DetailsViewModel: DetailsViewModelProtocol {
         favoriteGame.name = view?.games._name
         favoriteGame.rating = view?.games._rating ?? 0
         favoriteGame.id = Int16(view?.games._id ?? 0)
+        favoriteGame.released = view?.games._release
         favoriteGame.backgroundImage = view?.games.backgroundImage
         let window = UIApplication.shared.connectedScenes.first as! UIWindowScene
         let mainTabController = window.keyWindow?.rootViewController as! MainTabBarViewController

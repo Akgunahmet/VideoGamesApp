@@ -120,9 +120,21 @@ extension DetailsViewController: DetailsViewControllerProtocol {
     
     func configure() {
         gameNameLabel.text = games._name
-        gameRateLabel.text = String(format: "%.1f", games._rating)
+        //gameRateLabel.text = String(format: "%.1f", games._rating)
+//        if let metacritic = games.metacritic {
+//            gameRateLabel.text = String(metacritic)
+//        } else {
+//            gameRateLabel.text = "N/A"
+//        }
+        gameRateLabel.text = "\(games._metacritic)"
         gameDateLabel.text = games._release
-        gameImageView.downloadImage(game: games)
+      //  gameImageView.downloadImage(game: games)
+        if let imageURLString = games.backgroundImage {
+                gameImageView.downloadImage(withURLString: imageURLString)
+            } else {
+                gameImageView.cancelDownloading()
+            }
+
         let cleanedDescription = games._description.stripHTMLTags()
         gameDescriptionLabel.text = cleanedDescription
     }

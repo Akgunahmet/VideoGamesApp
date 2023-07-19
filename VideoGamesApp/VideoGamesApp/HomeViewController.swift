@@ -5,7 +5,6 @@
 //  Created by Ahmet Akgün on 13.07.2023.
 //
 //
-
 import UIKit
 
 protocol HomeViewControllerProtocol: AnyObject {
@@ -39,7 +38,12 @@ final class HomeViewController: UIViewController, LoadingShowable {
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
+     
+        collectionView.accessibilityIdentifier = "collectionView"
+
     }
+    
+
     
     private func setupPageViewController() {
         pageView.dataSource = self
@@ -60,7 +64,14 @@ final class HomeViewController: UIViewController, LoadingShowable {
         
         let imageView = PosterImageView(frame: viewController.view.bounds)
         imageView.clipsToBounds = true
-        imageView.downloadImage(game: viewModel.games[index])
+    //    imageView.downloadImage(game: viewModel.games[index])
+        if let imageURLString = viewModel.games[index].backgroundImage {
+            imageView.downloadImage(withURLString: imageURLString)
+        } else {
+            imageView.cancelDownloading()
+        }
+
+
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         viewController.view.addSubview(imageView)

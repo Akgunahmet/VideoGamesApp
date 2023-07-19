@@ -5,8 +5,8 @@
 //  Created by Ahmet Akgün on 13.07.2023.
 //
 
-import UIKit
 
+import UIKit
 
 final class GameCell: UICollectionViewCell {
     static let reuseID = "GameCell"
@@ -28,11 +28,24 @@ final class GameCell: UICollectionViewCell {
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.text = "Raiting"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
+    private let releasedLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Released Date"
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
+    private let seperatorLabel: UILabel = {
+        let label = UILabel()
+        label.text = "-"
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
     
-    private var stackView: UIStackView!
+    private var labelStackView: UIStackView!
+    private var mainStackView: UIStackView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,30 +67,46 @@ extension GameCell {
     private func setup(){
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoImageView.layer.cornerRadius = 12
-        
-        stackView = UIStackView(arrangedSubviews: [gameName,ratingLabel])
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+//        labelStackView = UIStackView(arrangedSubviews: [ratingLabel,
+//                                                        seperatorLabel,
+//                                                       releasedLabel,
+//                                                        UIView()])
+//        labelStackView.axis = .horizontal
+//        labelStackView.spacing = 5
+//        labelStackView.translatesAutoresizingMaskIntoConstraints = false
+        mainStackView = UIStackView(arrangedSubviews: [gameName,
+                                                       ratingLabel,
+                                                      releasedLabel])
+        mainStackView.axis = .vertical
+        mainStackView.distribution = .fillEqually
+        mainStackView.spacing = 5
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
     }
+    
     private func layout(){
         addSubview(photoImageView)
-        addSubview(stackView)
+        addSubview(mainStackView)
         NSLayoutConstraint.activate([
             photoImageView.heightAnchor.constraint(equalToConstant: 70),
             photoImageView.widthAnchor.constraint(equalToConstant: 70),
             photoImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             photoImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
-            
-            stackView.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor),
-            stackView.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 6),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            mainStackView.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: photoImageView.trailingAnchor, constant: 6),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
+    
     func configure(games: Games) {
-        photoImageView.downloadImage(game: games)
+
+        if let imageURLString = games.backgroundImage {
+                photoImageView.downloadImage(withURLString: imageURLString)
+            } else {
+                photoImageView.cancelDownloading()
+            }
         gameName.text = games.name
-        ratingLabel.text = String(format: "%.1f", games.rating ?? "")
+        ratingLabel.text = "Rating: " + String(format: "%.1f", games.rating ?? 0.0)
+
+        releasedLabel.text = "Released Date: \(games._release)"
     }
 }

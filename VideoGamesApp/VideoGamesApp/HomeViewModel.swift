@@ -10,6 +10,8 @@ protocol HomeViewModelProtocol {
     var view: HomeViewControllerProtocol? { get set }
     func viewDidLoad()
     func getGames()
+    func getDetail(id: Int)
+    func filteredGames(searchText: String)
 }
 
 final class HomeViewModel {
