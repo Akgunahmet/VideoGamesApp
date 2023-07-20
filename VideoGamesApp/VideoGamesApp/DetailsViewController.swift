@@ -106,14 +106,33 @@ extension DetailsViewController {
     
     @objc private func handleFavoriButton() {
         if viewModel.isFavorite {
-            viewModel.deleteGameFromFavorites()
-            viewModel.isFavorite = false
+//            viewModel.deleteGameFromFavorites()
+//            viewModel.isFavorite = false
+            confirmDeleteAlert()
         } else {
             viewModel.saveGameToFavorites()
             viewModel.isFavorite = true
         }
         setupNavBarItem()
     }
+    private func confirmDeleteAlert() {
+        let alertController = UIAlertController(title: "Delete from Favorites", message: "Are you sure you want to remove this game from your favorites?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (_) in
+            guard let self = self else { return }
+            self.viewModel.deleteGameFromFavorites()
+            self.viewModel.isFavorite = false
+            self.setupNavBarItem()
+        }
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+
+        present(alertController, animated: true, completion: nil)
+    }
+
 }
 
 extension DetailsViewController: DetailsViewControllerProtocol {

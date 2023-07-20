@@ -6,6 +6,7 @@
 //
 //
 import UIKit
+import LoadingView
 
 protocol HomeViewControllerProtocol: AnyObject {
     func style()
@@ -17,7 +18,7 @@ protocol HomeViewControllerProtocol: AnyObject {
     func hideLoadingView()
 }
 
-final class HomeViewController: UIViewController, LoadingShowable {
+final class HomeViewController: UIViewController {
     
     var pageView: UIPageViewController!
     var collectionView: UICollectionView!
@@ -82,7 +83,7 @@ final class HomeViewController: UIViewController, LoadingShowable {
     
 }
 // MARK: - Extension Helper Function
-extension HomeViewController: HomeViewControllerProtocol {
+extension HomeViewController: HomeViewControllerProtocol , LoadingShowable{
     
     func showLoadingView() {
         showLoading()

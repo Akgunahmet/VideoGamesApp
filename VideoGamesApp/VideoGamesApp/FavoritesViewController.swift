@@ -16,6 +16,15 @@ protocol FavoritesViewControllerProtocol: AnyObject {
 class FavoritesViewController: UIViewController, FavoritesViewControllerProtocol {
     
     private var collectionView: UICollectionView!
+    var noResultsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Favori Bulunamadı"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .gray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     private let viewModel = FavoritesViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +41,13 @@ extension FavoritesViewController {
     
     func reloadCollectionView() {
         collectionView.reloadOnMainThread()
+        if viewModel.resultCoreDataItems.isEmpty {
+                    collectionView.isHidden = true
+                    noResultsLabel.isHidden = false
+                } else {
+                    collectionView.isHidden = false
+                    noResultsLabel.isHidden = true
+                }
     }
     func navigateToDetailScreen(games: Games) {
         DispatchQueue.main.async {
@@ -40,13 +56,30 @@ extension FavoritesViewController {
         }
     }
     @objc private func deleteAllButtonTapped() {
-        viewModel.deleteAllFavoriteGames()
+        showConfirmationAlert()
     }
+    private func showConfirmationAlert() {
+        let alertController = UIAlertController(title: "Delete All Favorites", message: "Are you sure you want to delete all favorite games?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (_) in
+            guard let self = self else { return }
+            self.viewModel.deleteAllFavoriteGames()
+        }
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+
+        present(alertController, animated: true, completion: nil)
+    }
+
     
     func style() {
         view.backgroundColor = .systemBackground
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createHomeFlowLayout())
         view.addSubview(collectionView)
+        view.addSubview(noResultsLabel)
         collectionView.register(FavoriteCell.self, forCellWithReuseIdentifier: FavoriteCell.reuseID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         let deleteAllButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteAllButtonTapped))
@@ -60,6 +93,9 @@ extension FavoritesViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            noResultsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         collectionView.delegate = self
         collectionView.dataSource = self
