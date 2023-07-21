@@ -9,7 +9,6 @@ import Foundation
 @testable import VideoGamesApp
 import XCTest
 
-
 final class FavoritesTests: XCTestCase {
     var viewModel: MockFavoritesViewModel!
     var view: MockFavoritesViewController!
@@ -27,6 +26,7 @@ final class FavoritesTests: XCTestCase {
         viewModel = nil
         
     }
+    
     func test_viewDidLoad_InvokesRequiredViewMoethods() {
         
         XCTAssertFalse(view.isInvokedreloadCollectionView)

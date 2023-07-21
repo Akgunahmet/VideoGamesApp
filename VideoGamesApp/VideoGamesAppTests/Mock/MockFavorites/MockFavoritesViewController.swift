@@ -12,6 +12,7 @@ final class MockFavoritesViewController: FavoritesViewControllerProtocol {
     
     var isInvokedStyle = false
     var isInvokedStyleCount = 0
+    
     func style() {
         isInvokedStyle = true
         isInvokedStyleCount += 1
@@ -19,6 +20,7 @@ final class MockFavoritesViewController: FavoritesViewControllerProtocol {
     
     var isInvokedLayout = false
     var isInvokedLayoutCount = 0
+    
     func layout() {
         isInvokedLayout = true
         isInvokedLayoutCount += 1

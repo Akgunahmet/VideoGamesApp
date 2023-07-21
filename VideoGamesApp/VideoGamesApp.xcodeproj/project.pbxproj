@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E421D5FB2A694EA600536EB2 /* LoadingView in Frameworks */ = {isa = PBXBuildFile; productRef = E421D5FA2A694EA600536EB2 /* LoadingView */; };
-		E421D5FF2A6A771F00536EB2 /* HomeViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D5FE2A6A771F00536EB2 /* HomeViewModelTest.swift */; };
+		E421D5FF2A6A771F00536EB2 /* HomeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D5FE2A6A771F00536EB2 /* HomeTest.swift */; };
 		E421D6012A6A773200536EB2 /* MockHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D6002A6A773200536EB2 /* MockHomeViewController.swift */; };
 		E421D6032A6A90E300536EB2 /* MockHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D6022A6A90E300536EB2 /* MockHomeViewModel.swift */; };
 		E421D60B2A6AB3D600536EB2 /* MockDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D60A2A6AB3D600536EB2 /* MockDetailsViewController.swift */; };
@@ -66,8 +66,7 @@
 
 /* Begin PBXFileReference section */
 		E421D5F92A694E5100536EB2 /* LoadingView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LoadingView; sourceTree = "<group>"; };
-		E421D5FD2A6A75F300536EB2 /* Games.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Games.json; sourceTree = "<group>"; };
-		E421D5FE2A6A771F00536EB2 /* HomeViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTest.swift; sourceTree = "<group>"; };
+		E421D5FE2A6A771F00536EB2 /* HomeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTest.swift; sourceTree = "<group>"; };
 		E421D6002A6A773200536EB2 /* MockHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeViewController.swift; sourceTree = "<group>"; };
 		E421D6022A6A90E300536EB2 /* MockHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeViewModel.swift; sourceTree = "<group>"; };
 		E421D60A2A6AB3D600536EB2 /* MockDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDetailsViewController.swift; sourceTree = "<group>"; };
@@ -142,7 +141,6 @@
 				E421D6092A6AB32E00536EB2 /* MockFavorites */,
 				E421D6072A6AB31E00536EB2 /* MockDetails */,
 				E421D6062A6AB31300536EB2 /* MockHome */,
-				E421D5FD2A6A75F300536EB2 /* Games.json */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -152,7 +150,7 @@
 			children = (
 				E421D6002A6A773200536EB2 /* MockHomeViewController.swift */,
 				E421D6022A6A90E300536EB2 /* MockHomeViewModel.swift */,
-				E421D5FE2A6A771F00536EB2 /* HomeViewModelTest.swift */,
+				E421D5FE2A6A771F00536EB2 /* HomeTest.swift */,
 			);
 			path = MockHome;
 			sourceTree = "<group>";
@@ -503,7 +501,7 @@
 				E421D6012A6A773200536EB2 /* MockHomeViewController.swift in Sources */,
 				E421D6032A6A90E300536EB2 /* MockHomeViewModel.swift in Sources */,
 				E49F901C2A5FC94600947D6C /* VideoGamesAppTests.swift in Sources */,
-				E421D5FF2A6A771F00536EB2 /* HomeViewModelTest.swift in Sources */,
+				E421D5FF2A6A771F00536EB2 /* HomeTest.swift in Sources */,
 				E421D60D2A6AB3E800536EB2 /* MockFavoritesViewController.swift in Sources */,
 				E421D60B2A6AB3D600536EB2 /* MockDetailsViewController.swift in Sources */,
 				E421D60F2A6AB3F500536EB2 /* MockFavoritesViewModel.swift in Sources */,

@@ -31,12 +31,14 @@ final class GameCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
+    
     private let releasedLabel: UILabel = {
         let label = UILabel()
         label.text = "Released Date"
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
+    
     private let seperatorLabel: UILabel = {
         let label = UILabel()
         label.text = "-"
@@ -63,17 +65,11 @@ final class GameCell: UICollectionViewCell {
         photoImageView.cancelDownloading()
     }
 }
+
 extension GameCell {
     private func setup(){
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoImageView.layer.cornerRadius = 12
-//        labelStackView = UIStackView(arrangedSubviews: [ratingLabel,
-//                                                        seperatorLabel,
-//                                                       releasedLabel,
-//                                                        UIView()])
-//        labelStackView.axis = .horizontal
-//        labelStackView.spacing = 5
-//        labelStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView = UIStackView(arrangedSubviews: [gameName,
                                                        ratingLabel,
                                                       releasedLabel])

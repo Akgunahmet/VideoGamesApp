@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class FavoriteCell: UICollectionViewCell {
     
     static let reuseID = "FavoriteCell"
@@ -19,18 +18,21 @@ class FavoriteCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    
     private let gameName: UILabel = {
         let label = UILabel()
         label.text = "Name of Game"
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
+    
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.text = "Raiting"
         label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
+    
     private let releasedLabel: UILabel = {
         let label = UILabel()
         label.text = "Released Date"
@@ -62,6 +64,7 @@ extension FavoriteCell {
         stackView.spacing = 5
         stackView.translatesAutoresizingMaskIntoConstraints = false
     }
+    
     private func layout(){
         addSubview(photoImageView)
         addSubview(stackView)
@@ -76,6 +79,7 @@ extension FavoriteCell {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
+    
     func configure(gamesCoreData: GamesCoreData) {
         self.gameName.text = gamesCoreData.name
        // self.ratingLabel.text = String(format: "%.1f", gamesCoreData.rating)

@@ -14,16 +14,19 @@ final class MockHomeViewController: HomeViewControllerProtocol {
     
     var isInvokedStyle = false
     var isInvokedStyleCount = 0
+    
     func style() {
         isInvokedStyle = true
         isInvokedStyleCount += 1
     }
+    
     var isInvokedLayout = false
     var isInvokedLayoutCount = 0
     func layout() {
         isInvokedLayout = true
         isInvokedLayoutCount += 1
     }
+    
     var isInvokedreloadCollectionView = false
     var isInvokedreloadCollectionViewCount = 0
     
@@ -31,14 +34,11 @@ final class MockHomeViewController: HomeViewControllerProtocol {
         isInvokedreloadCollectionView = true
         isInvokedreloadCollectionViewCount += 1
     }
-//    var isInvokedStyle = false
-//    var isInvokedStyleCount = 0
-    
+
     func navigateToDetailScreen(games: VideoGamesApp.Games) {
-        
-//        isInvokedStyle = true
-//        isInvokedStyleCount += 1
+
     }
+    
     var isInvokedsetupPageViewControllerIfNeeded = false
     var isInvokedsetupPageViewControllerIfNeededCount = 0
     

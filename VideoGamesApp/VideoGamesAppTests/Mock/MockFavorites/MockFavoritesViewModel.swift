@@ -42,7 +42,6 @@ final class MockFavoritesViewModel: FavoritesViewModelProtocol {
     var isInvokedFetchFavoriteGamesCount = 0
     
     func fetchFavoriteGames() {
-        
         isInvokedFetchFavoriteGames = true
         isInvokedFetchFavoriteGamesCount += 1
     }
@@ -51,7 +50,6 @@ final class MockFavoritesViewModel: FavoritesViewModelProtocol {
     var isInvokedDeleteAllFavoriteGamesCount = 0
     
     func deleteAllFavoriteGames() {
-        
         isInvokedDeleteAllFavoriteGames = true
         isInvokedDeleteAllFavoriteGamesCount += 1
     }

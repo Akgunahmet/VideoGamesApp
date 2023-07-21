@@ -25,8 +25,8 @@ final class FavoritesViewModel {
     var games: [Games] = []
     
 }
+
 extension FavoritesViewModel: FavoritesViewModelProtocol {
-    
     
     func viewDidLoad() {
         view?.style()
@@ -43,6 +43,7 @@ extension FavoritesViewModel: FavoritesViewModelProtocol {
             self.view?.navigateToDetailScreen(games: returnedDetail)
         }
     }
+    
     func badgeValue() {
         let window = UIApplication.shared.connectedScenes.first as! UIWindowScene
         let mainTabController = window.keyWindow?.rootViewController as! MainTabBarViewController
@@ -88,6 +89,4 @@ extension FavoritesViewModel: FavoritesViewModelProtocol {
             print("Could not delete favorite games from Core Data. Error: \(error), \(error.userInfo)")
         }
     }
-    
-    
 }

@@ -15,8 +15,9 @@ protocol DetailsViewControllerProtocol: AnyObject {
 }
 
 final class DetailsViewController: UIViewController {
-    let games: Games
     
+    let games: Games
+    var labelStackView: UIStackView!
     private let viewModel = DetailsViewModel()
     
     init(games: Games) {
@@ -27,6 +28,7 @@ final class DetailsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +66,7 @@ final class DetailsViewController: UIViewController {
         label.textAlignment = .left
         return label
     }()
+    
     private let gameRateLabel: UILabel = {
         let label = UILabel()
         label.text = "Metacritic Rate"
@@ -81,9 +84,6 @@ final class DetailsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    
-    var labelStackView: UIStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,8 +108,6 @@ extension DetailsViewController {
     
     @objc private func handleFavoriButton() {
         if viewModel.isFavorite {
-//            viewModel.deleteGameFromFavorites()
-//            viewModel.isFavorite = false
             confirmDeleteAlert()
         } else {
             viewModel.saveGameToFavorites()
@@ -117,6 +115,7 @@ extension DetailsViewController {
         }
         setupNavBarItem()
     }
+    
     private func confirmDeleteAlert() {
         let alertController = UIAlertController(title: "Delete from Favorites", message: "Are you sure you want to remove this game from your favorites?", preferredStyle: .alert)
 
@@ -131,31 +130,21 @@ extension DetailsViewController {
 
         alertController.addAction(cancelAction)
         alertController.addAction(deleteAction)
-
         present(alertController, animated: true, completion: nil)
     }
-
 }
 
 extension DetailsViewController: DetailsViewControllerProtocol {
     
     func configure() {
         gameNameLabel.text = games._name
-        //gameRateLabel.text = String(format: "%.1f", games._rating)
-//        if let metacritic = games.metacritic {
-//            gameRateLabel.text = String(metacritic)
-//        } else {
-//            gameRateLabel.text = "N/A"
-//        }
         gameRateLabel.text = "\(games._metacritic)"
         gameDateLabel.text = games._release
-      //  gameImageView.downloadImage(game: games)
         if let imageURLString = games.backgroundImage {
                 gameImageView.downloadImage(withURLString: imageURLString)
             } else {
                 gameImageView.cancelDownloading()
             }
-
         let cleanedDescription = games._description.stripHTMLTags()
         gameDescriptionLabel.text = cleanedDescription
     }
@@ -176,7 +165,6 @@ extension DetailsViewController: DetailsViewControllerProtocol {
         contentView.addSubview(gameImageView)
         contentView.addSubview(labelStackView)
         contentView.addSubview(gameDescriptionLabel)
-        
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

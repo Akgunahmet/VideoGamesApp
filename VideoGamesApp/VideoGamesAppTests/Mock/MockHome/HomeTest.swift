@@ -10,6 +10,7 @@ import Foundation
 import XCTest
 
 final class HomeViewModelTests: XCTestCase {
+    
     var viewModel: MockHomeViewModel!
     var view: MockHomeViewController!
     
@@ -24,13 +25,11 @@ final class HomeViewModelTests: XCTestCase {
     override func tearDown() {
         view = nil
         viewModel = nil
-
+        
     }
+    
     func test_viewDidLoad_InvokesRequiredViewMoethods() {
         
-//        view = .init()
-//        viewModel = .init()
-      
         XCTAssertFalse(view.isInvokedreloadCollectionView)
         XCTAssertEqual(view.isInvokedreloadCollectionViewCount, 0)
         XCTAssertFalse(view.isInvokedStyle)
@@ -48,8 +47,7 @@ final class HomeViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.isInvokedViewDidLoad)
         XCTAssertFalse(viewModel.isInvokedFilteredGames)
         XCTAssertFalse(viewModel.isInvokedGetDetails)
-
-//        viewModel.viewDidLoad()
+        
         view.style()
         view.layout()
         view.hideLoadingView()
@@ -72,50 +70,3 @@ final class HomeViewModelTests: XCTestCase {
         
     }
 }
-
-//extension VideoGames {
-//
-//    static var response: VideoGames {
-//        let bundle = Bundle(for: HomeViewModelTests.self)
-//        let path = bundle.path(forResource: "Games", ofType: "json")!
-//        let file = try! String(contentsOfFile: path)
-//        let data = file.data(using: .utf8)!
-//        let response = try! JSONDecoder().decode(VideoGames.self, from: data)
-//        return response
-//    }
-//}
-
-
-//final class HomeViewModel: HomeViewModelProtocol {
-//
-//    var view: VideoGamesApp.HomeViewControllerProtocol?
-//
-//    var isInvokedViewDidLoad = false
-//    var isInvokedViewDidLoadCount = 0
-//
-//    func viewDidLoad() {
-//        isInvokedViewDidLoad = true
-//        isInvokedViewDidLoadCount += 1
-//    }
-//    var isInvokedGetGames = false
-//    var isInvokedGetGamesCount = 0
-//    func getGames() {
-//        isInvokedGetGames = true
-//        isInvokedGetGamesCount += 1
-//    }
-//    var isInvokedGetDetail = false
-//    var isInvokedGetDetailCount = 0
-//    func getDetail(id: Int) {
-//        isInvokedGetDetail = true
-//        isInvokedGetDetailCount += 1
-//    }
-//    var isInvokedfilteredGames = false
-//    var isInvokedfilteredGamesCount = 0
-//
-//    func filteredGames(searchText: String) {
-//        isInvokedfilteredGames = true
-//        isInvokedfilteredGamesCount += 1
-//    }
-//
-//
-//}

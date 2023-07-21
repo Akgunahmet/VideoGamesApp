@@ -5,7 +5,6 @@
 //  Created by Ahmet Akgün on 14.07.2023.
 //
 
-
 import CoreData
 import UIKit
 
@@ -17,13 +16,10 @@ protocol DetailsViewModelProtocol {
     func deleteGameFromFavorites()
 }
 
-
 final class DetailsViewModel {
     weak var view: DetailsViewControllerProtocol?
     private var resultCoreDataItems: [GamesCoreData] = []
-    
     var isFavorite = false
-    
 }
 
 extension DetailsViewModel: DetailsViewModelProtocol {
@@ -32,10 +28,9 @@ extension DetailsViewModel: DetailsViewModelProtocol {
         view?.layout()
         view?.configure()
     }
-
     
     func checkFavoriteStatus() {
-
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -69,7 +64,7 @@ extension DetailsViewModel: DetailsViewModelProtocol {
         let window = UIApplication.shared.connectedScenes.first as! UIWindowScene
         let mainTabController = window.keyWindow?.rootViewController as! MainTabBarViewController
         mainTabController.viewControllers?[1].tabBarItem.badgeValue = "New"
-
+        
         do {
             try managedContext.save()
             isFavorite = true
@@ -79,6 +74,7 @@ extension DetailsViewModel: DetailsViewModelProtocol {
             print("Could not save game to favorites. Error: \(error), \(error.userInfo)")
         }
     }
+    
     func deleteGameFromFavorites() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return

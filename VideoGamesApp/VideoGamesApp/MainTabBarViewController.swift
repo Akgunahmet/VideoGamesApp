@@ -33,7 +33,6 @@ extension MainTabBarViewController {
         
         rootViewConttoler.title = title
         appearance.configureWithDefaultBackground()
-        // controller.navigationBar.prefersLargeTitles = true
         controller.navigationBar.compactAppearance = appearance
         controller.navigationBar.standardAppearance = appearance
         controller.navigationBar.scrollEdgeAppearance = appearance

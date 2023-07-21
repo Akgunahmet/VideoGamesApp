@@ -22,7 +22,7 @@ final class HomeViewController: UIViewController {
     
     var pageView: UIPageViewController!
     var collectionView: UICollectionView!
-     let viewModel = HomeViewModel()
+    let viewModel = HomeViewModel()
     
     var noResultsLabel: UILabel = {
         let label = UILabel()
@@ -39,14 +39,12 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
-     
+        
         collectionView.accessibilityIdentifier = "collectionView"
-
+        
     }
     
-
-    
-     func setupPageViewController() {
+    func setupPageViewController() {
         pageView.dataSource = self
         
         let initialViewControllers = viewModel.games.prefix(3).enumerated().map { (index, game) in
@@ -65,16 +63,13 @@ final class HomeViewController: UIViewController {
         
         let imageView = PosterImageView(frame: viewController.view.bounds)
         imageView.clipsToBounds = true
-    //    imageView.downloadImage(game: viewModel.games[index])
         if let imageURLString = viewModel.games[index].backgroundImage {
             imageView.downloadImage(withURLString: imageURLString)
         } else {
             imageView.cancelDownloading()
         }
-
-
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         viewController.view.addSubview(imageView)
         imageView.pinToEdgesOf(view: viewController.view)
         viewController.view.tag = index
@@ -106,8 +101,7 @@ extension HomeViewController: HomeViewControllerProtocol , LoadingShowable{
             }
         }
     }
-
-
+    
     func navigateToDetailScreen(games: Games) {
         DispatchQueue.main.async {
             let detailScreen = DetailsViewController(games: games)
@@ -119,10 +113,12 @@ extension HomeViewController: HomeViewControllerProtocol , LoadingShowable{
             self?.setupPageViewController()
         }
     }
+    
     func style() {
         
         view.backgroundColor = .systemBackground
         let searchController = UISearchController(searchResultsController: nil)
+        let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.delegate = self
@@ -132,11 +128,12 @@ extension HomeViewController: HomeViewControllerProtocol , LoadingShowable{
         collectionView.register(GameCell.self, forCellWithReuseIdentifier: GameCell.reuseID)
         collectionView.delegate = self
         collectionView.dataSource = self
-        let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
+        
         pageControl.pageIndicatorTintColor = .gray
         pageControl.currentPageIndicatorTintColor = .black
         
     }
+    
     func layout() {
         
         addChild(pageView)
@@ -147,7 +144,6 @@ extension HomeViewController: HomeViewControllerProtocol , LoadingShowable{
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(noResultsLabel)
         setupConstraints()
-        
     }
 }
 
@@ -187,7 +183,6 @@ extension HomeViewController: UIPageViewControllerDataSource{
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //centerLabel.isHidden = self.viewModel.games.count != 0
         return viewModel.filteredGames.isEmpty ? viewModel.games.count: viewModel.filteredGames.count
     }
     
@@ -197,6 +192,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.configure(games: game)
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.getDetail(id: viewModel.filteredGames.isEmpty ? viewModel.games[indexPath.item]._id : viewModel.filteredGames[indexPath.item]._id)
     }
@@ -212,7 +208,6 @@ extension HomeViewController: UISearchBarDelegate {
             searchBar.resignFirstResponder()
             
             viewModel.filteredGames = Array(viewModel.games.dropFirst(3))
-    
             pageView.view.isHidden = false
             
             collectionView.removeFromSuperview()
@@ -229,16 +224,13 @@ extension HomeViewController: UISearchBarDelegate {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         }
-        
         reloadCollectionView()
-        
     }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         
         viewModel.filteredGames = Array(viewModel.games.dropFirst(3))
-        
-    
         pageView.view.isHidden = false
         collectionView.removeFromSuperview()
         pageView.view.removeFromSuperview()
@@ -248,6 +240,5 @@ extension HomeViewController: UISearchBarDelegate {
         
         layout()
         reloadCollectionView()
-        
     }
 }

@@ -9,20 +9,7 @@ import Foundation
 
 final class GamesService {
     
-//   func downloadGames(page: Int, completion: @escaping ([Games]?) -> ()) {
-//        guard let url = URL(string: APIURLs.games(page: page)) else { return }
-//
-//        NetworkManager.shared.download(url: url) { [weak self] result in
-//            guard let self = self else { return }
-//
-//            switch result {
-//            case .success(let data):
-//                completion(self.handleWithData(data))
-//            case .failure(let error):
-//                self.handleWithError(error)
-//            }
-//        }
-//    }
+
     func downloadGames(completion: @escaping ([Games]?) -> ()) {
            guard let url = URL(string: APIURLs.games()) else { return }
            

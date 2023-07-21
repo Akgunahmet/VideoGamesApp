@@ -19,9 +19,9 @@ final class HomeViewModel {
     public let service = GamesService()
     var games: [Games] = []
     var filteredGames: [Games] = []
-    // var page: Int = 1
     
 }
+
 extension HomeViewModel: HomeViewModelProtocol {
     
     func viewDidLoad() {
@@ -38,8 +38,6 @@ extension HomeViewModel: HomeViewModelProtocol {
             
             self.games.append(contentsOf: returnedMovies)
             self.filteredGames = Array(self.games.dropFirst(3))
-            
-//            self.page += 1
             self.view?.reloadCollectionView()
             self.view?.setupPageViewControllerIfNeeded()
             view?.hideLoadingView()

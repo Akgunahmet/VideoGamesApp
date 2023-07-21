@@ -23,6 +23,7 @@ final class MockHomeViewModel: HomeViewModelProtocol {
     
     var isInvokedGetGames = false
     var isInvokedGetGamesCount = 0
+    
     func getGames() {
         isInvokedGetGames = true
         isInvokedGetGamesCount += 1
@@ -31,6 +32,7 @@ final class MockHomeViewModel: HomeViewModelProtocol {
     var isInvokedGetDetails = false
     var invokedGetDetailCount = 0
     var invokedGetDetailParameters: (id: Int, Void)?
+    
     func getDetail(id: Int) {
         isInvokedGetDetails = true
         invokedGetDetailCount += 1
@@ -40,6 +42,7 @@ final class MockHomeViewModel: HomeViewModelProtocol {
     var isInvokedFilteredGames = false
     var invokedFilteredGamesCount = 0
     var invokedfilteredGamesParameters: (searchText: String, Void)?
+    
     func filteredGames(searchText: String) {
         isInvokedFilteredGames = true
         invokedFilteredGamesCount += 1

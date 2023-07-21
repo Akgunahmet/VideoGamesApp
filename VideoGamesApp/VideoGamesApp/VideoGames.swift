@@ -13,7 +13,6 @@ public struct VideoGames: Codable {
     public let next: String?
     public let results: [Games]?
     public let description: String?
-    //public let filters: Filters?
     
 }
 
