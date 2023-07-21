@@ -19,7 +19,7 @@ final class HomeViewModel {
     public let service = GamesService()
     var games: [Games] = []
     var filteredGames: [Games] = []
-    private var page: Int = 1
+    // var page: Int = 1
     
 }
 extension HomeViewModel: HomeViewModelProtocol {
@@ -32,15 +32,14 @@ extension HomeViewModel: HomeViewModelProtocol {
     
     func getGames() {
         view?.showLoadingView()
-        service.downloadGames(page: page) { [weak self] returnedMovies in
+        service.downloadGames() { [weak self] returnedMovies in
             guard let self = self else { return }
             guard let returnedMovies = returnedMovies else { return }
             
             self.games.append(contentsOf: returnedMovies)
             self.filteredGames = Array(self.games.dropFirst(3))
             
-            self.page += 1
-          
+//            self.page += 1
             self.view?.reloadCollectionView()
             self.view?.setupPageViewControllerIfNeeded()
             view?.hideLoadingView()
@@ -58,7 +57,7 @@ extension HomeViewModel: HomeViewModelProtocol {
     
     func filteredGames(searchText: String) {
         filteredGames = games.filter { game in
-            if let gameTitle = game.name {
+            if let gameTitle = game.name{
                 return gameTitle.lowercased().contains(searchText.lowercased())
             }
             return false

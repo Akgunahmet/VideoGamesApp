@@ -22,7 +22,7 @@ final class HomeViewController: UIViewController {
     
     var pageView: UIPageViewController!
     var collectionView: UICollectionView!
-    private let viewModel = HomeViewModel()
+     let viewModel = HomeViewModel()
     
     var noResultsLabel: UILabel = {
         let label = UILabel()
@@ -46,7 +46,7 @@ final class HomeViewController: UIViewController {
     
 
     
-    private func setupPageViewController() {
+     func setupPageViewController() {
         pageView.dataSource = self
         
         let initialViewControllers = viewModel.games.prefix(3).enumerated().map { (index, game) in

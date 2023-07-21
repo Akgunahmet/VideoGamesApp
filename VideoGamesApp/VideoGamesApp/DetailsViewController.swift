@@ -18,6 +18,7 @@ final class DetailsViewController: UIViewController {
     let games: Games
     
     private let viewModel = DetailsViewModel()
+    
     init(games: Games) {
         self.games = games
         super.init(nibName: nil, bundle: nil)
@@ -42,6 +43,7 @@ final class DetailsViewController: UIViewController {
         let imageView = PosterImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
         return imageView
     }()
     

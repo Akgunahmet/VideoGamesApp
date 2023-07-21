@@ -102,5 +102,4 @@ extension DetailsViewModel: DetailsViewModelProtocol {
             print("Could not delete game from favorites. Error: \(error), \(error.userInfo)")
         }
     }
-    
 }

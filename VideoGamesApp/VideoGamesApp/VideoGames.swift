@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - VideoGame
-public struct VideoGames: Decodable {
+public struct VideoGames: Codable {
     public let count: Int?
     public let next: String?
     public let results: [Games]?
@@ -18,7 +18,7 @@ public struct VideoGames: Decodable {
 }
 
 // MARK: - Result
-public struct Games: Decodable {
+public struct Games: Codable {
 public  let id: Int?
 public  let name, released: String?
 public  let backgroundImage: String?
