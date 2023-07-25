@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E41B285B2A6F15F50082667C /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = E41B285A2A6F15F50082667C /* SDWebImage */; };
+		E41B285F2A6FCE6E0082667C /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = E41B285E2A6FCE6E0082667C /* SDWebImage */; };
 		E421D5FB2A694EA600536EB2 /* LoadingView in Frameworks */ = {isa = PBXBuildFile; productRef = E421D5FA2A694EA600536EB2 /* LoadingView */; };
 		E421D5FF2A6A771F00536EB2 /* HomeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D5FE2A6A771F00536EB2 /* HomeTest.swift */; };
 		E421D6012A6A773200536EB2 /* MockHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D6002A6A773200536EB2 /* MockHomeViewController.swift */; };
@@ -124,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E41B285F2A6FCE6E0082667C /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,8 +205,8 @@
 			isa = PBXGroup;
 			children = (
 				E49F90392A5FCA3100947D6C /* Utilities */,
-				E4E37AB42A611DA7006D7F3E /* Services */,
 				E4E37AB52A611DB4006D7F3E /* Models */,
+				E4E37AB42A611DA7006D7F3E /* Services */,
 				E49F90372A5FC9E500947D6C /* Extensions */,
 				E49F90382A5FCA2100947D6C /* Components */,
 				E49F90362A5FC9DE00947D6C /* MainTabBarController */,
@@ -281,8 +283,8 @@
 			children = (
 				E4E37AB22A611D9F006D7F3E /* APIURLs.swift */,
 				E4E37AB02A611D94006D7F3E /* NetworkManager.swift */,
-				E49F90462A5FCB1C00947D6C /* UIHelper.swift */,
 				E47A0A552A66632E001ED2D4 /* Reachability.swift */,
+				E49F90462A5FCB1C00947D6C /* UIHelper.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -375,6 +377,9 @@
 				E49F90192A5FC94600947D6C /* PBXTargetDependency */,
 			);
 			name = VideoGamesAppTests;
+			packageProductDependencies = (
+				E41B285E2A6FCE6E0082667C /* SDWebImage */,
+			);
 			productName = VideoGamesAppTests;
 			productReference = E49F90172A5FC94600947D6C /* VideoGamesAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -853,6 +858,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		E41B285A2A6F15F50082667C /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E41B28592A6F15F50082667C /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		E41B285E2A6FCE6E0082667C /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E41B28592A6F15F50082667C /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;

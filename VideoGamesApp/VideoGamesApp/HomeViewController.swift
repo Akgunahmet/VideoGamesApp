@@ -26,22 +26,21 @@ final class HomeViewController: UIViewController {
     
     var noResultsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sonuç Bulunamadı"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.isHidden = true
-        return label
-    }()
+          label.text = "Sonuç Bulunamadı"
+          label.textAlignment = .center
+          label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+          label.textColor = .gray
+          label.translatesAutoresizingMaskIntoConstraints = false
+          label.isHidden = true
+          return label
+      }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.view = self
         viewModel.viewDidLoad()
-        
-        collectionView.accessibilityIdentifier = "collectionView"
-        
+        //collectionView.accessibilityIdentifier = "collectionView"
     }
     
     func setupPageViewController() {

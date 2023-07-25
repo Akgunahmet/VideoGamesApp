@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - VideoGame
-public struct VideoGames: Codable {
+public struct VideoGames: Decodable {
     public let count: Int?
     public let next: String?
     public let results: [Games]?
@@ -17,15 +17,15 @@ public struct VideoGames: Codable {
 }
 
 // MARK: - Result
-public struct Games: Codable {
-public  let id: Int?
-public  let name, released: String?
-public  let backgroundImage: String?
-public  let rating: Double?
-public  let ratingTop: Int?
-public  let metacritic: Int?
+public struct Games: Decodable {
+    public let id: Int?
+    public let name, released: String?
+    public let backgroundImage: String?
+    public let rating: Double?
+    public let ratingTop: Int?
+    public let metacritic: Int?
     public let description: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case name, released, description
         case id
@@ -33,7 +33,7 @@ public  let metacritic: Int?
         case rating
         case ratingTop = "rating_top"
         case metacritic
-    
+        
     }
     var _id: Int {
         id ?? Int.min

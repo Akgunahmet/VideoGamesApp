@@ -135,19 +135,7 @@ extension DetailsViewController {
 }
 
 extension DetailsViewController: DetailsViewControllerProtocol {
-    
-    func configure() {
-        gameNameLabel.text = games._name
-        gameRateLabel.text = "\(games._metacritic)"
-        gameDateLabel.text = games._release
-        if let imageURLString = games.backgroundImage, let imageURL = URL(string: imageURLString) {
-            gameImageView.sd_setImage(with: imageURL)
-        }
-
-        let cleanedDescription = games._description.stripHTMLTags()
-        gameDescriptionLabel.text = cleanedDescription
-    }
-    
+  
     func style() {
         view.backgroundColor = .systemBackground
         labelStackView = UIStackView(arrangedSubviews: [gameNameLabel,
@@ -191,5 +179,18 @@ extension DetailsViewController: DetailsViewControllerProtocol {
             gameDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -30),
             gameDescriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
+    }
+    
+  
+    func configure() {
+        gameNameLabel.text = games._name
+        gameRateLabel.text = "\(games._metacritic)"
+        gameDateLabel.text = games._release
+        if let imageURLString = games.backgroundImage, let imageURL = URL(string: imageURLString) {
+            gameImageView.sd_setImage(with: imageURL)
+        }
+
+        let cleanedDescription = games._description.stripHTMLTags()
+        gameDescriptionLabel.text = cleanedDescription
     }
 }

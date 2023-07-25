@@ -11,6 +11,7 @@ extension CGFloat {
     static let deviceWidth = UIScreen.main.bounds.width
     static let deviceHeight = UIScreen.main.bounds.height
 }
+
 extension String {
     func stripHTMLTags() -> String {
         let regex = try! NSRegularExpression(pattern: "<.*?>", options: [.caseInsensitive])
