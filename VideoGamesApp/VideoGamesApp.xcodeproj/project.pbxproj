@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E41B285B2A6F15F50082667C /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = E41B285A2A6F15F50082667C /* SDWebImage */; };
 		E421D5FB2A694EA600536EB2 /* LoadingView in Frameworks */ = {isa = PBXBuildFile; productRef = E421D5FA2A694EA600536EB2 /* LoadingView */; };
 		E421D5FF2A6A771F00536EB2 /* HomeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D5FE2A6A771F00536EB2 /* HomeTest.swift */; };
 		E421D6012A6A773200536EB2 /* MockHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E421D6002A6A773200536EB2 /* MockHomeViewController.swift */; };
@@ -114,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E41B285B2A6F15F50082667C /* SDWebImage in Frameworks */,
 				E421D5FB2A694EA600536EB2 /* LoadingView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +355,7 @@
 			name = VideoGamesApp;
 			packageProductDependencies = (
 				E421D5FA2A694EA600536EB2 /* LoadingView */,
+				E41B285A2A6F15F50082667C /* SDWebImage */,
 			);
 			productName = VideoGamesApp;
 			productReference = E49F8FFE2A5FC94500947D6C /* VideoGamesApp.app */;
@@ -426,6 +429,9 @@
 				Base,
 			);
 			mainGroup = E49F8FF52A5FC94500947D6C;
+			packageReferences = (
+				E41B28592A6F15F50082667C /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			productRefGroup = E49F8FFF2A5FC94500947D6C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -834,7 +840,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		E41B28592A6F15F50082667C /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		E41B285A2A6F15F50082667C /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E41B28592A6F15F50082667C /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
 		E421D5FA2A694EA600536EB2 /* LoadingView */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LoadingView;

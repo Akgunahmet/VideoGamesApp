@@ -9,7 +9,6 @@ import Foundation
 
 final class GamesService {
     
-
     func downloadGames(completion: @escaping ([Games]?) -> ()) {
            guard let url = URL(string: APIURLs.games()) else { return }
            

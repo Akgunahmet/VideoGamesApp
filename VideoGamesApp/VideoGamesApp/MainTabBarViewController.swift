@@ -16,6 +16,7 @@ class MainTabBarViewController: UITabBarController {
         
     }
 }
+
 extension MainTabBarViewController {
     private func setup() {
         viewControllers = [

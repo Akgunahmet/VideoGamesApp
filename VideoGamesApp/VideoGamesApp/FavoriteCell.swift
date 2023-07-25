@@ -5,15 +5,14 @@
 //  Created by Ahmet Akgün on 13.07.2023.
 //
 
-
 import UIKit
 
 class FavoriteCell: UICollectionViewCell {
     
     static let reuseID = "FavoriteCell"
     
-    private var photoImageView: PosterImageView = {
-        let imageView = PosterImageView(frame: .zero)
+    private var photoImageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -82,13 +81,16 @@ extension FavoriteCell {
     
     func configure(gamesCoreData: GamesCoreData) {
         self.gameName.text = gamesCoreData.name
-       // self.ratingLabel.text = String(format: "%.1f", gamesCoreData.rating)
         self.ratingLabel.text = "Rating: " + String(format: "%.1f", gamesCoreData.rating )
-        if let imageURLString = gamesCoreData.backgroundImage {
-                photoImageView.downloadImage(withURLString: imageURLString)
-            } else {
-                photoImageView.cancelDownloading()
-            }
+        
+        if let imageURLString = gamesCoreData.backgroundImage, let imageURL = URL(string: imageURLString) {
+            photoImageView.sd_setImage(with: imageURL)
+        }
+//        if let imageURLString = gamesCoreData.backgroundImage {
+//                photoImageView.downloadImage(withURLString: imageURLString)
+//            } else {
+//                photoImageView.cancelDownloading()
+//            }
         releasedLabel.text = "Released Date: \(gamesCoreData.released ?? "")"
     }
 }

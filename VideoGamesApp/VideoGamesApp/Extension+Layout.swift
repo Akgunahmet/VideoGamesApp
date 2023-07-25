@@ -23,10 +23,10 @@ extension HomeViewController {
 
             noResultsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-
         ])
     }
 }
+
 extension UIView {
     func pinToEdgesOf(view: UIView) {
         NSLayoutConstraint.activate([

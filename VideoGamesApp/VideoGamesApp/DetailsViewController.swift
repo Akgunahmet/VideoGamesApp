@@ -41,8 +41,8 @@ final class DetailsViewController: UIViewController {
         return view
     }()
     
-    private let gameImageView: PosterImageView = {
-        let imageView = PosterImageView(frame: .zero)
+    private let gameImageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
@@ -140,11 +140,10 @@ extension DetailsViewController: DetailsViewControllerProtocol {
         gameNameLabel.text = games._name
         gameRateLabel.text = "\(games._metacritic)"
         gameDateLabel.text = games._release
-        if let imageURLString = games.backgroundImage {
-                gameImageView.downloadImage(withURLString: imageURLString)
-            } else {
-                gameImageView.cancelDownloading()
-            }
+        if let imageURLString = games.backgroundImage, let imageURL = URL(string: imageURLString) {
+            gameImageView.sd_setImage(with: imageURL)
+        }
+
         let cleanedDescription = games._description.stripHTMLTags()
         gameDescriptionLabel.text = cleanedDescription
     }

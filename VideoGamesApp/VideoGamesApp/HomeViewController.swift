@@ -61,12 +61,15 @@ final class HomeViewController: UIViewController {
         let viewController = UIViewController()
         viewController.view.backgroundColor = .clear
         
-        let imageView = PosterImageView(frame: viewController.view.bounds)
+        let imageView = UIImageView(frame: viewController.view.bounds)
         imageView.clipsToBounds = true
-        if let imageURLString = viewModel.games[index].backgroundImage {
-            imageView.downloadImage(withURLString: imageURLString)
-        } else {
-            imageView.cancelDownloading()
+//        if let imageURLString = viewModel.games[index].backgroundImage {
+//            imageView.downloadImage(withURLString: imageURLString)
+//        } else {
+//            imageView.cancelDownloading()
+//        }
+        if let imageURLString = viewModel.games[index].backgroundImage, let imageURL = URL(string: imageURLString) {
+            imageView.sd_setImage(with: imageURL)
         }
         
         imageView.translatesAutoresizingMaskIntoConstraints = false

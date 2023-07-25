@@ -7,12 +7,13 @@
 
 
 import UIKit
+import SDWebImage
 
 final class GameCell: UICollectionViewCell {
     static let reuseID = "GameCell"
     
-    private var photoImageView: PosterImageView = {
-        let imageView = PosterImageView(frame: .zero)
+    private var photoImageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -62,7 +63,6 @@ final class GameCell: UICollectionViewCell {
         super.prepareForReuse()
         
         photoImageView.image = nil
-        photoImageView.cancelDownloading()
     }
 }
 
@@ -95,11 +95,14 @@ extension GameCell {
     
     func configure(games: Games) {
 
-        if let imageURLString = games.backgroundImage {
-                photoImageView.downloadImage(withURLString: imageURLString)
-            } else {
-                photoImageView.cancelDownloading()
-            }
+//        if let imageURLString = games.backgroundImage {
+//                photoImageView.downloadImage(withURLString: imageURLString)
+//            } else {
+//                photoImageView.cancelDownloading()
+//            }
+        if let imageURLString = games.backgroundImage, let imageURL = URL(string: imageURLString) {
+            photoImageView.sd_setImage(with: imageURL)
+        }
         gameName.text = games.name
         ratingLabel.text = "Rating: " + String(format: "%.1f", games.rating ?? 0.0)
 
